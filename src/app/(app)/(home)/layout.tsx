@@ -1,3 +1,4 @@
+import { Category } from '@/payload-types';
 import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 
@@ -16,7 +17,8 @@ const Layout = async ({ children }: Props) => {
 
 	const data = await payload.find({
 		collection: 'categories',
-		depth: 1,
+		depth: 1, // Populate subcategories, subcategories.[0] will be of type "Category"
+		pagination: false,
 		where: {
 			parent: {
 				exists: false
@@ -24,10 +26,18 @@ const Layout = async ({ children }: Props) => {
 		}
 	});
 
+	const formattedData = data.docs.map((doc) => ({
+		...doc,
+		subcategories: (doc.subcategories?.docs ?? []).map((doc) => ({
+			// Guaranteed to be a Category
+			...(doc as Category)
+		}))
+	}));
+
 	return (
 		<div className="flex min-h-screen flex-col">
 			<Navbar />
-			<SearchFilters data={data} />
+			<SearchFilters data={formattedData} />
 			<div className="flex-1 bg-[#F4F4F0]">{children}</div>
 			<Footer />
 		</div>
