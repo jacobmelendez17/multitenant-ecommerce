@@ -5,6 +5,7 @@ import { CategoryDropdown } from './category-dropdown';
 import { Button } from '@/components/ui/button';
 import { useEffect, useRef, useState } from 'react';
 import { CustomCategory } from '../types';
+import { CategoriesSidebar } from './categories-sidebar';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -56,6 +57,8 @@ export const Categories = ({ data }: Props) => {
 
 	return (
 		<div className="relative w-full">
+			<CategoriesSidebar open={isSidebarOpen} onOpenChange={setIsSidebarOpen} data={data} />
+
 			{/* Hidden div to measure all items*/}
 			<div
 				ref={measureRef}
@@ -95,6 +98,7 @@ export const Categories = ({ data }: Props) => {
 							'hover:border-primary h-11 rounded-full border-transparent bg-transparent px-4 text-black hover:bg-white',
 							isActiveCategoryHidden && !isAnyHovered && 'border-primary bg-white'
 						)}
+						onClick={() => setIsSidebarOpen(true)}
 					>
 						View All
 						<ListFilterIcon className="ml-2" />
