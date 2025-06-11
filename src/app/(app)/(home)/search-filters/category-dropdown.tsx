@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 import { useDropdownPosition } from './use-dropdown-position';
 import { SubcategoryMenu } from './subcategory-menu';
@@ -47,7 +48,7 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
 							'border-primary bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[4px] hover:-translate-y-[4px]'
 					)}
 				>
-					{category.name}
+					<Link href={`/${category.slug === 'all' ? '' : category.slug}`}>{category.name}</Link>
 				</Button>
 				{category.subcategories && category.subcategories.length > 0 && (
 					<div
